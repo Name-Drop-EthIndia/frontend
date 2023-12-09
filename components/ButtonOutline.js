@@ -1,4 +1,15 @@
+"use client";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useAccount } from "wagmi";
 const ButtonOutline = ({ text = "Get Started", maxHeight = 55 }) => {
+  // const { isConnected } = useAccount();
+  // if (!isConnected) {
+  //   return (
+  //     <div className="relative h-10 w-10">
+  //       <ConnectButton />;
+  //     </div>
+  //   );
+  // }
   return (
     <button
       className="btnOutline relative"

@@ -1,6 +1,8 @@
 import { Montserrat } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
+// import "@rainbow-me/rainbowkit/styles.css";
+// import WagmiProvider from "@/wagmi.config";
 
 const monty = Montserrat({
   subsets: ["latin"],
@@ -28,8 +30,10 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className={`${monty.className} fcc`}>
+        {/* <WagmiProvider>/ */}
         <Header />
         {children}
+        {/* </WagmiProvider>/ */}
       </body>
     </html>
   );
