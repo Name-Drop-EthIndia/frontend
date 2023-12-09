@@ -1,3 +1,5 @@
+import HomeButton from "./HomeButton";
+
 const HeroLeftText = ({ heading, desc }) => {
   return (
     <>
@@ -16,14 +18,7 @@ const HeroLeftText = ({ heading, desc }) => {
           {desc ||
             "Circle : Where Connections Become Unforgettable Experiences"}
         </p>
-        <button
-          className="btnOutline mt-10"
-          style={{
-            height: 55,
-          }}
-        >
-          Get Started
-        </button>
+        <HomeButton />
       </div>
     </>
   );

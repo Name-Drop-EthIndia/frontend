@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-const ButtonOutline = ({ text = "Get Started", maxHeight = 55 }) => {
+const ButtonOutline = ({ text = "Connect", maxHeight = 55 }) => {
   const [wallet, setWallet] = useState("");
   const [account, setAccount] = useState("");
 
@@ -22,6 +22,7 @@ const ButtonOutline = ({ text = "Get Started", maxHeight = 55 }) => {
       setWallet(accounts[0]);
       localStorage.setItem("account", accounts[0]);
     } else {
+      alert("Please install MetaMask");
       console.log("not ethereum");
     }
   }
@@ -51,8 +52,7 @@ const ButtonOutline = ({ text = "Get Started", maxHeight = 55 }) => {
           fontSize: 14,
         }}
       >
-        {" "}
-        {text}
+        {!wallet ? text : "Disconnect"}
       </span>
     </button>
   );
