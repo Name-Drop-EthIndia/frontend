@@ -1,9 +1,12 @@
 "use client";
+import { useRouter } from "next/navigation";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { InjectedConnector } from "wagmi/connectors/injected";
 
 const ButtonOutline = ({ text = "Get Started", maxHeight = 55 }) => {
-  const { address, isConnected } = useAccount();
+  const router = useRouter();
+  const { address, isConnected, status } = useAccount();
+  console.log("statu", status);
   const { connect } = useConnect({
     connector: new InjectedConnector(),
   });
@@ -33,6 +36,7 @@ const ButtonOutline = ({ text = "Get Started", maxHeight = 55 }) => {
             disconnect();
           }
           connect();
+          router.push("/profile");
         }}
       >
         <div

@@ -1,6 +1,6 @@
 import HomeButton from "./HomeButton";
 
-const HeroLeftText = ({ heading, desc }) => {
+const HeroLeftText = ({ heading, desc, onClick, text }) => {
   return (
     <>
       <div>
@@ -18,7 +18,7 @@ const HeroLeftText = ({ heading, desc }) => {
           {desc ||
             "Circle : Where Connections Become Unforgettable Experiences"}
         </p>
-        <HomeButton />
+        <HomeButton text={text} onClick={onClick} />
       </div>
     </>
   );

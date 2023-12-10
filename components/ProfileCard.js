@@ -1,21 +1,23 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import ProfileCardDetails from "./ProfileCardDetails";
 import QRCode from "react-qr-code";
 import { useAccount, useSignMessage } from "wagmi";
 import { encodeAbiParameters, parseAbiParameters } from "viem";
+import { useState } from "react";
 const ProfileCard = ({
   name,
   socialTags = [{ icon: "twitter", id: "id" }],
   avatar = "/avatar1.png",
 }) => {
   const [showQr, setShowQr] = useState(false);
-  const message = encodeAbiParameters(
-    parseAbiParameters("address x"),
-    profileAddress
-  );
+  // const message = encodeAbiParameters(
+  //   parseAbiParameters("address x"),
+  //   "0x0cd95622de4b32e6f9f33cba9cf835922f2b4c72"
+  // );
   const { data, isError, isLoading, isSuccess, signMessage } = useSignMessage({
-    message: message,
+    message: "whats up",
   });
 
   return (
@@ -24,12 +26,30 @@ const ProfileCard = ({
         {/* user details */}
         <ProfileCardDetails />
         {/* user IMAGE */}
-        <QRCode value={address + "?" + sig} />
-        <div className="flex flex-col profileCardBg items-end justify-between h-full">
-          <Link href={"/profile/id"} className="visitProfileBtn mt-4 mr-3">
-            {" Visit profile >>"}
-          </Link>
-          <Image src={avatar} alt="avatar" width={157} height={157} />
+        {/* <QRCode value={address + "?" + sig} /> */}
+        <div className="flex flex-col w-full profileCardBg items-end justify-between h-full">
+          <div
+            style={{
+              fontSize: 10,
+            }}
+            onClick={() => {
+              setShowQr(!showQr);
+            }}
+            className="hoverExpand visitProfileBtn mt-4 mr-3"
+          >
+            {" Show QR >>"}
+          </div>
+          {showQr ? (
+            <Image src={avatar} alt="avatar" width={157} height={157} />
+          ) : (
+            <QRCode
+              value={"0x0cd95622de4b32e6f9f33cba9cf835922f2b4c72"}
+              style={{
+                height: 157,
+                width: 157,
+              }}
+            />
+          )}
         </div>
       </div>
     </>

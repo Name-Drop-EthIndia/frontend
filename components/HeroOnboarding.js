@@ -1,8 +1,15 @@
+"use client";
+import { useAccount, useConnect } from "wagmi";
 import Banner from "./Banner";
 import HeroLeftText from "./HeroLeftText";
 import ImageBox from "./ImageBox";
+import { InjectedConnector } from "wagmi/connectors/injected";
 
 const HeroOnboarding = () => {
+  const { isConnected } = useAccount();
+  const { connect } = useConnect({
+    connector: new InjectedConnector(),
+  });
   return (
     <div className="max-h-[391px] lg:max-h-[716px] relative w-full ">
       <div className="flex items-center container h-full max-h-[391px] overflow-hidden lg:max-h-[716px]">
@@ -27,10 +34,17 @@ const HeroOnboarding = () => {
         className="p-[10px] mt-10 w-full lg:hidden  max-h-[391px] lg:max-h-[716px]"
       >
         <HeroLeftText
+          text={isConnected ? "Disconnect" : "Connect"}
           heading={"Engage. Collect. Thrive."}
           desc={
             "Engage effortlessly, collect vibrant memories, and thrive in a community that values your unique experiences"
           }
+          onClick={() => {
+            if (isConnected) {
+              disconnect();
+            }
+            connect();
+          }}
         />
       </div>
     </div>

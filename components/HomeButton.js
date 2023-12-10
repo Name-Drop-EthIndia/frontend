@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 
 const HomeButton = ({ text, onClick, loading }) => {
+  console.log(text, "text");
   const router = useRouter();
   return (
     <>
