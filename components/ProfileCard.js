@@ -6,11 +6,13 @@ import QRCode from "react-qr-code";
 import { useAccount, useSignMessage } from "wagmi";
 import { encodeAbiParameters, parseAbiParameters } from "viem";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 const ProfileCard = ({
   name,
   socialTags = [{ icon: "twitter", id: "id" }],
   avatar = "/avatar1.png",
 }) => {
+  const router = useRouter();
   const [showQr, setShowQr] = useState(false);
   // const message = encodeAbiParameters(
   //   parseAbiParameters("address x"),
@@ -22,7 +24,12 @@ const ProfileCard = ({
 
   return (
     <>
-      <div className="w-full max-w-[366px] h-[191px] profileCard frcsb hoverExpand">
+      <div
+        onClick={() => {
+          router.push("/profile/id");
+        }}
+        className="w-full max-w-[366px] h-[191px] profileCard frcsb hoverExpand"
+      >
         {/* user details */}
         <ProfileCardDetails />
         {/* user IMAGE */}

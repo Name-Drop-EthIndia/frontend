@@ -1,15 +1,18 @@
 "use client";
-import { useAccount, useConnect } from "wagmi";
+import { useAccount, useConnect, useDisconnect } from "wagmi";
 import Banner from "./Banner";
 import HeroLeftText from "./HeroLeftText";
 import ImageBox from "./ImageBox";
 import { InjectedConnector } from "wagmi/connectors/injected";
+import { useRouter } from "next/navigation";
 
 const HeroOnboarding = () => {
   const { isConnected } = useAccount();
   const { connect } = useConnect({
     connector: new InjectedConnector(),
   });
+  const router = useRouter();
+  const { disconnect } = useDisconnect();
   return (
     <div className="max-h-[391px] lg:max-h-[716px] relative w-full ">
       <div className="flex items-center container h-full max-h-[391px] overflow-hidden lg:max-h-[716px]">
@@ -44,6 +47,7 @@ const HeroOnboarding = () => {
               disconnect();
             }
             connect();
+            router.push("/profile");
           }}
         />
       </div>
