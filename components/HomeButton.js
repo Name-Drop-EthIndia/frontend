@@ -1,18 +1,25 @@
 "use client";
 import { useRouter } from "next/navigation";
 
-const HomeButton = () => {
+const HomeButton = ({ text, onClick, loading }) => {
   const router = useRouter();
   return (
     <>
       <button
-        onClick={() => router.push("/onboarding")}
+        disabled={loading ? true : false}
+        onClick={() => {
+          if (onClick) {
+            onClick();
+            return;
+          }
+          router.push("/onboarding");
+        }}
         className="btnOutline mt-10"
         style={{
           height: 55,
         }}
       >
-        Get Started
+        {loading ? "loading" : text || "Get Started"}
       </button>
     </>
   );

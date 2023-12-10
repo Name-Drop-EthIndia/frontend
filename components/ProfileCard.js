@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import ProfileCardDetails from "./ProfileCardDetails";
+import QRCode from "react-qr-code";
 
 const ProfileCard = ({
   name,
@@ -13,6 +14,7 @@ const ProfileCard = ({
         {/* user details */}
         <ProfileCardDetails />
         {/* user IMAGE */}
+        <QRCode value={"heeloo"} />
         <div className="flex flex-col profileCardBg items-end justify-between h-full">
           <Link href={"/profile/id"} className="visitProfileBtn mt-4 mr-3">
             {" Visit profile >>"}

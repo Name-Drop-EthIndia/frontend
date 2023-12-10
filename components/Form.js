@@ -1,9 +1,13 @@
 "use client";
-
 import Image from "next/image";
 import { useState } from "react";
 import ChooseAvatar from "./ChooseAvatar";
 import ImageBox from "./ImageBox";
+import HomeButton from "./HomeButton";
+import { NameDropContractABI } from "@/constants";
+import { useAccount, useContractWrite } from "wagmi";
+import lighthouse from "@lighthouse-web3/sdk";
+import { sendNotification } from "./Graph";
 
 const Form = () => {
   const [nickname, setNickname] = useState("");
@@ -15,6 +19,67 @@ const Form = () => {
   const [avatar, setAvatar] = useState("");
   const [grad, setGrad] = useState(1); // [1,18
   const grads = Array(18).fill(0);
+  const [uri, setUri] = useState("");
+  const uploadData = {
+    nickname,
+    keywords,
+    twitter,
+    linkedIn,
+    telegram,
+    personal,
+    avatar,
+    grad,
+  };
+
+  const { address } = useAccount();
+  const { data, isLoading, isSuccess, write } = useContractWrite({
+    address: "0xF831f7693d3F5997816eD4c809D1A41cFc860C1b", //contract address
+    abi: NameDropContractABI,
+    functionName: "createProfile",
+    onError: (e) => {
+      console.log("failed to create profile");
+      alert("Failed to create profile");
+    },
+    // args: [],
+  });
+  const apiKey = process.env.LIGHTHOUSE_API;
+  const uploadImage = async () => {
+    const filePath = file;
+    const uploadImage = await lighthouse.upload(filePath, apiKey);
+    console.log("File uploaded to IPFS via Lighthouse:", uploadImage);
+    return uploadImage;
+  };
+
+  const uploadMetadata = async () => {
+    console.log(apiKey);
+
+    const metadataResponse = await lighthouse.uploadText(
+      "hello",
+      "ad5d0cd5.fc185766bd8d4e519b55144909d344ea"
+    );
+    console.log("Metadata uploaded to IPFS via Lighthouse:", metadataResponse);
+    return metadataResponse;
+  };
+  const handleSubmitForm = async () => {
+    try {
+      // send data to lighthouse
+      const lhres = await uploadMetadata();
+      // get uri
+      console.log("lughthouse response", lhres);
+      const uri = "ipfs://" + lhres.data.Hash;
+      if (!uri) {
+        return alert("failed to upload metadata");
+      }
+      // create new nft profile
+      write({
+        args: [nickname || "test", nickname.substring(0, 3) || "test", uri],
+      });
+      sendNotification({ signer: address });
+      // alert("Profile created");
+    } catch (error) {
+      console.log(error, "error in handleSubmitForm");
+    }
+  };
   const handleAvatar = (e, i) => {
     setAvatar(i);
     console.log(i);
@@ -35,27 +100,40 @@ const Form = () => {
       placeholder: "Twitter",
       value: twitter,
       icon: "twitter",
-      setValue: setTwitter,
+      setValue: (e) => {
+        setTwitter(e.target.value);
+      },
     },
     {
       value: linkedIn,
+      placeholder: "LinkedIn",
       icon: "linkedIn",
-      setValue: setLinkedin,
+      setValue: (e) => {
+        setLinkedin(e.target.value);
+      },
     },
     {
       value: telegram,
+      placeholder: "Telegram",
       icon: "telegram",
-      setValue: setTelegram,
+      setValue: (e) => {
+        setTelegram(e.target.value);
+      },
     },
     {
       value: personal,
+      placeholder: "Personal Website",
       icon: "personal",
-      setValue: setPersonal,
+      setValue: (e) => {
+        setPersonal(e.target.value);
+      },
     },
     {
       label: "Keywords",
       value: keywords,
-      setValue: setKeywords,
+      setValue: (e) => {
+        setKeywords(e.target.value);
+      },
     },
   ];
   return (
@@ -119,6 +197,7 @@ const Form = () => {
                 className="card h-10 w-10"
                 style={{
                   borderRadius: 5,
+                  border: grad == i + 1 && "2px solid white",
                   background: `var(--grad${i + 1})`,
                 }}
               ></button>
@@ -168,6 +247,12 @@ const Form = () => {
             Choose Avatar
           </button>
         </div>
+        {/* SUBMIT */}
+        <HomeButton
+          loading={isLoading}
+          text={"Create Profile"}
+          onClick={handleSubmitForm}
+        />
       </div>
     </>
   );
