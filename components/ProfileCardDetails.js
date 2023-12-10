@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const ProfileCardDetails = ({
   name,
-  socialTags = [{ icon: "twitter", id: "id" }],
+  socialTags = [{ icon: "twitter", id: "dammcoder" }],
   isDark = false,
 }) => {
   return (
@@ -17,7 +17,7 @@ const ProfileCardDetails = ({
           >
             PROFILE CARD
           </h4>
-          <h2>{name || "Username"}</h2>
+          <h2>{name || "DammmCoder"}</h2>
         </div>
         {/* social tags */}
         {socialTags.map(

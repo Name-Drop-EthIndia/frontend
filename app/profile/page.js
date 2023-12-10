@@ -12,7 +12,7 @@ const page = () => {
   ];
   return (
     <div className="pt-[90px] w-full fcc pb-10">
-      <div className="px-[10px] w-full mb-5">
+      <div className="px-[10px] w-full mb-5 fcc">
         <ProfileCard />
       </div>
       <Banner />
@@ -23,7 +23,7 @@ const page = () => {
           key={i}
           href={event.href}
           src={event.src}
-          className="flex-shrink-0 h-auto"
+          className="flex-shrink-0 h-auto w-fit"
           leftText={event.heading}
         />
       ))}
